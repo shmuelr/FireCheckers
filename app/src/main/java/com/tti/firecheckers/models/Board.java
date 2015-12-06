@@ -1,7 +1,11 @@
 package com.tti.firecheckers.models;
 
+import android.graphics.Point;
 import android.util.Log;
 import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by user on 12/6/15.
@@ -9,6 +13,11 @@ import android.view.View;
 public class Board {
     private Color color;
     private Piece[][] boardArray = new Piece[8][8];
+
+
+
+
+
 
     enum Color {
         BLACK, WHITE;
@@ -42,6 +51,48 @@ public class Board {
     *
     *
     * */
+
+
+
+    public List<Point> canMove(Point from){
+        List<Point> points = new ArrayList<>();
+        int i = boardArray[from.y][from.x].getColor().equals(Piece.Color.RED)? 1 :-1;
+        if(from.y < boardArray.length -1 ) {
+            if (boardArray[from.y + i][from.x + 1].equals(null))
+                points.add(new Point(from.y + i, from.x + 1));
+
+            if (boardArray[from.y + i][from.x - 1].equals(null))
+                points.add(new Point(from.y + i, from.x - 1));
+
+//            if (!boardArray[from.y][from.x].getColor()
+//                    .equals(boardArray[from.y + 1][from.x + 1].getColor()))
+//                points.add(new Point(from.y + ++i, from.x + 2));
+//
+//            if (!boardArray[from.y][from.x].equals(boardArray[from.y + 1][from.x - 1]))
+//                points.add(new Point(from.y + i*2, from.x - 2));
+//            }
+        }
+
+        return points;
+    }
+
+
+          public void move(Point from, Point to) {
+              List<Point> points = canMove(from);
+
+                             if (points.contains(to) ) {
+                                  boardArray[to.y][to.x] = boardArray[from.y][from.x];
+
+                                  boardArray[from.y][from.x] = null;
+               }
+
+
+          }
+
+          public Piece getPiece(Point p1) {
+                    return boardArray[p1.y][p1.x];
+          }
+
     public void setUpGame() {
         int i, j;
         for (i = 0; i < boardArray.length; i++) {
